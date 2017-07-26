@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		3.1.113 /components/com_j2xml/j2xml.php
+ * @version		3.3.153 /components/com_j2xml/j2xml.php
  * 
  * @package		J2XML
  * @subpackage	com_j2xml
@@ -8,7 +8,7 @@
  *
  * @author		Helios Ciancio <info@eshiol.it>
  * @link		http://www.eshiol.it
- * @copyright	Copyright (C) 2010-2013 Helios Ciancio. All Rights Reserved
+ * @copyright	Copyright (C) 2010, 2016 Helios Ciancio. All Rights Reserved
  * @license		http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL v3
  * J2XML is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -18,6 +18,15 @@
  
 // no direct access
 defined('_JEXEC') or die('Restricted access.');
+
+$params = JComponentHelper::getParams('com_j2xml');
+
+jimport('joomla.log.log');
+if ($params->get('debug') || defined('JDEBUG') && JDEBUG)
+{
+	JLog::addLogger(array('text_file' => 'j2xml.php', 'extension' => 'com_j2xml'), JLog::ALL, array('lib_j2xml','com_j2xml'));
+}
+JLog::addLogger(array('logger' => 'messagequeue', 'extension' => 'com_j2xml'), JLOG::ALL & ~JLOG::DEBUG, array('lib_j2xml','com_j2xml'));
 
 // Merge the default translation with the current translation
 $lang = JFactory::getLanguage();

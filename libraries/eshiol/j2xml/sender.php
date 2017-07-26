@@ -1,13 +1,13 @@
 <?php
 /**
- * @version		16.1.275 libraries/eshiol/j2xml/sender.php
+ * @version		16.5.281 libraries/eshiol/j2xml/sender.php
  * @package		J2XML
  * @subpackage	lib_j2xml
  * @since		1.5.3beta3.38
  *
  * @author		Helios Ciancio <info@eshiol.it>
  * @link		http://www.eshiol.it
- * @copyright	Copyright (C) 2010-2015 Helios Ciancio. All Rights Reserved
+ * @copyright	Copyright (C) 2010, 2016 Helios Ciancio. All Rights Reserved
  * @license		http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL v3
  * J2XML is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -67,9 +67,7 @@ class J2XMLSender
 	 */
 	static function send($xml, $options, $sid)
 	{
-		if (defined('JDEBUG') && JDEBUG)
-			JLog::addLogger(array('text_file' => 'j2xml.php', 'extension' => 'lib_j2xml'), JLog::ALL, array('lib_j2xml'));
-		
+		JLog::add(new JLogEntry(__METHOD__,JLOG::DEBUG,'lib_j2xml'));
 		$app = JFactory::getApplication();
 		/*
 		$db = JFactory::getDBO();
@@ -148,29 +146,17 @@ class J2XMLSender
 				
 		if ($str[strlen($str)-1] != '/')
 			$server['remote_url'] .= '/';
-		$server['remote_url'] .= 'index.php?option=com_j2xml&task=services.xmlrpc&format=xmlrpc';
+		$server['remote_url'] .= 'index.php?option=com_j2xml&task=cpanel.import&format=xmlrpc';
 
-		$msg = new xmlrpcmsg('j2xml.login');
-		$p1 = new xmlrpcval($server['username'], 'string');
-		$msg->addparam($p1);
-		$p2 = new xmlrpcval($server['password'], 'string');
-		$msg->addparam($p2);
-		$res = self::_xmlrpc_send($server['remote_url'], $msg, $options['debug']);
-
-		if ($res->faultcode())
-		{
-			$app->enqueueMessage($server['title'].': '.JText::_($res->faultString()), 'error');
-		}
-
-		$token = $res->value()->arraymem(0)->structmem('message')->scalarval();
-		
-		$msg = new xmlrpcmsg('j2xml.import');
-		$p1 = new xmlrpcval($token, 'string');
-		$msg->addparam($p1);
-		$p2 = new xmlrpcval($data, 'base64');
-		$msg->addparam($p2);
-		$res = 	self::_xmlrpc_send($server['remote_url'], $msg, $options['debug']);
-		
+		$res = 
+			self::_xmlrpc_j2xml_send(
+				$server['remote_url'], 
+				$data, 
+				$server['username'], 
+				$server['password'], 
+				$options['debug']
+			);
+		JLog::add(new JLogEntry(print_r($res, true),JLOG::DEBUG,'lib_j2xml'));
 		if ($res->faultcode())
 			$app->enqueueMessage($server['title'].': '.JText::_($res->faultString()), 'error');
 		else
@@ -195,24 +181,30 @@ class J2XMLSender
 	/**
 	* Send xml data to
 	* @param string $remote_url
-	* @param xmlrpcmsg $msg
+	* @param string $xml
+	* @param string $username
+	* @param string $password
 	* @param int $debug when 1 (or 2) will enable debugging of the underlying xmlrpc call (defaults to 0)
 	* @return xmlrpcresp obj instance
 	*/
-	private static function _xmlrpc_send($remote_url, $msg, $debug=0) 
+	private static function _xmlrpc_j2xml_send($remote_url, $xml, $username, $password, $debug=0) 
 	{
-		JLog::add(new JLogEntry(__METHOD__,JLOG::DEBUG,'lib_j2xml'));
-		JLog::add(new JLogEntry($remote_url,JLOG::DEBUG,'lib_j2xml'));		
+		$protocol = '';
 		$GLOBALS['xmlrpc_internalencoding'] = 'UTF-8';
 		$client = new xmlrpc_client($remote_url);
 		$client->return_type = 'xmlrpcvals';
 		$client->request_charset_encoding = 'UTF-8';
 		$client->user_agent = J2XMLVersion::$PRODUCT.' '.J2XMLVersion::getFullVersion();
 		$client->setDebug($debug);
-		
-		$protocol = '';
+		$msg = new xmlrpcmsg('j2xml.import');
+		$p1 = new xmlrpcval(base64_encode($xml), 'base64');
+		$msg->addparam($p1);
+		$p2 = new xmlrpcval($username, 'string');
+		$msg->addparam($p2);
+		$p3 = new xmlrpcval($password, 'string');
+		$msg->addparam($p3);
 		$res = $client->send($msg, 0);
-		
+
 		if (!$res->faultcode())
 			return $res;
 		

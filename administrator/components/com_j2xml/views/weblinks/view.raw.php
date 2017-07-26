@@ -1,7 +1,6 @@
 <?php
 /**
- * @version		3.3.144 views/weblinks/view.raw.php
- * 
+ * @version		3.2.142 views/weblinks/view.raw.php
  * @package		J2XML
  * @subpackage	com_j2xml
  * @since		1.5.3beta3.38

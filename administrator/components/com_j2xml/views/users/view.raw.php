@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		3.3.144 views/users/view.raw.php
+ * @version		3.2.142 views/users/view.raw.php
  * 
  * @package		J2XML
  * @subpackage	com_j2xml

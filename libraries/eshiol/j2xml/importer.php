@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		16.5.280 libraries/eshiol/j2xml/importer.php
+ * @version		16.7.283 libraries/eshiol/j2xml/importer.php
  * 
  * @package		J2XML
  * @subpackage	lib_j2xml
@@ -112,7 +112,6 @@ class J2XMLImporter
 	
 	function import($xml, $params)
 	{
-		JLog::addLogger(array('text_file' => 'j2xml.php', 'extension' => 'lib_j2xml'), JLog::ALL, array('lib_j2xml'));
 		JLog::add(new JLogEntry(__METHOD__,JLOG::DEBUG,'lib_j2xml'));
 		
 		//gc_enable(); // Enable Garbage Collector
@@ -142,7 +141,8 @@ class J2XMLImporter
 				
 				if (isset($data['group']))
 				{
-					$data['group'] = $this->getUsergroupId($data['group']);
+					$data['groups'][] = $this->getUsergroupId($data['group']);
+					unset($data['group']);
 				}
 				elseif (isset($data['grouplist']))
 				{
@@ -1385,6 +1385,26 @@ class J2XMLImporter
 			$data['modified_user_id'] = self::getUserId($data['modified_user_id'], 0);
 		if (isset($data['access']))
 			$data['access'] = self::getAccessId($data['access']);
+			if (isset($data['publish_up']))
+		{
+			$date = new JDate($data['publish_up']);
+			$data['publish_up'] = $date->toISO8601(false);
+		}
+		if (isset($data['publish_down']))
+		{
+			$date = new JDate($data['publish_down']);
+			$data['publish_down'] = $date->toISO8601(false);
+		}
+		if (isset($data['created']))
+		{
+			$date = new JDate($data['created']);
+			$data['created'] = $date->toISO8601(false);
+		}
+		if (isset($data['modified']))
+		{
+			$date = new JDate($data['modified']);
+			$data['modified'] = $date->toISO8601(false);
+		}
 		//JLog::add(new JLogEntry(print_r($data, true),JLOG::DEBUG,'lib_j2xml'));
 	}
 }

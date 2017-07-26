@@ -2,7 +2,7 @@
 /**
  * @package		J2XML
  * @subpackage	lib_j2xml
- * @version		16.1
+ * @version		16.7
  *
  * @author		Helios Ciancio <info@eshiol.it>
  * @link		http://www.eshiol.it
@@ -15,6 +15,24 @@
  */
 ?>
 
+
+---------------------- 16.7.283 Release  [28-July-2016] ----------------------
+
+28-July-2016
+  # import user groups (build 283)
+
+----------------------- 16.7.282 Release [6-July-2016] -----------------------
+
+6-July-2016
+  # publish_up (build 282)
+  # publish_down (build 282)
+  # created (build 282)
+  # modified (build 282)
+
+----------------------- 16.5.281 Release  [31-May-2016] -----------------------
+
+31-May-2016
+  # send (build 281)
 
 ----------------------- 16.5.279 Release  [22-May-2016] -----------------------
 

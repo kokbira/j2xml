@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		3.3.144 administrator/components/com_j2xml/views/categories/view.raw.php
+ * @version		3.2.142 administrator/components/com_j2xml/views/categories/view.raw.php
  * 
  * @package		J2XML
  * @subpackage	com_j2xml
