@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		3.1.117 views/users/view.raw.php
+ * @version		3.2.142 views/users/view.raw.php
  * 
  * @package		J2XML
  * @subpackage	com_j2xml
@@ -8,7 +8,7 @@
  * 
  * @author		Helios Ciancio <info@eshiol.it>
  * @link		http://www.eshiol.it
- * @copyright	Copyright (C) 2010-2013 Helios Ciancio. All Rights Reserved
+ * @copyright	Copyright (C) 2010-2015 Helios Ciancio. All Rights Reserved
  * @license		http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL v3
  * J2XML is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -19,22 +19,12 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access.');
 
-class J2XMLViewUsers extends JViewAbstract
-{
-	function display($tpl = null)
-	{
-		$app = JFactory::getApplication();
-		$cid = JRequest::getVar('cid');		
-		$ids = explode(",", $cid);
+jimport('eshiol.j2xml.exporter');
 
-		$params = JComponentHelper::getParams('com_j2xml');
+require_once dirname(__FILE__).'/../raw.php';
 
-		if (!J2XMLExporter::export(
-				J2XMLExporter::users($ids),		
-				$params->get('debug', 0), 
-				$params->get('export_gzip', '0')
-			))
-			$app->redirect('index.php?option=com_users');
-	}
-}
+/**
+ * J2XML Component Users View
+ */
+class J2XMLViewUsers extends J2XMLView {}
 ?>

@@ -1,13 +1,13 @@
 <?php
 /**
- * @version		3.1.6 cli/j2xml.php
+ * @version		3.3.11 cli/j2xml.php
  * @package		J2XML.CLI
  * @subpackage	cli
  * @since		2.5
  *
  * @author		Helios Ciancio <info@eshiol.it>
  * @link		http://www.eshiol.it
- * @copyright	Copyright (C) 2010-2014 Helios Ciancio. All Rights Reserved
+ * @copyright	Copyright (C) 2010-2016 Helios Ciancio. All Rights Reserved
  * @license		http://www.gnu.org/licenses/gpl-3.0.html GNU/GPL v3
  * J2XML is free software. This version may have been modified pursuant
  * to the GNU General Public License, and as distributed it includes or
@@ -116,7 +116,8 @@ class J2XMLCli extends JApplicationCli
 			exit(1);
 		}
 		
-		JLog::addLogger(array('logger' => 'echo'), JLOG::ALL, array('j2xml'));
+		JLog::addLogger(array('text_file' => 'j2xml.php', 'extension' => 'com_j2xml'), JLog::ALL, array('lib_j2xml','cli_j2xml'));
+		JLog::addLogger(array('logger' => 'echo', 'extension' => 'com_j2xml'), JLOG::ALL & ~JLOG::DEBUG, array('lib_j2xml','cli_j2xml'));
 		
 		if (!($data = implode(gzfile($filename))))
 			$data = file_get_contents($filename);
@@ -181,7 +182,8 @@ class J2XMLCli extends JApplicationCli
 			{
 				set_time_limit(120);
 				$params = JComponentHelper::getParams('com_j2xml');
-				J2XMLImporter::import($xml,$params);
+				$j2xml = new J2XMLImporter();
+				$j2xml->import($xml,$params);
 			}
 			else
 				$this->out(JText::sprintf('LIB_J2XML_MSG_FILE_FORMAT_NOT_SUPPORTED', $xmlVersion),'error');
