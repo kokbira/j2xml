@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		15.9.269 libraries/eshiol/j2xml/table/viewlevel.php
+ * @version		15.3.248 libraries/eshiol/j2xml/table/viewlevel.php
  * @package		J2XML
  * @subpackage	lib_j2xml
  * @since		15.3.248
@@ -39,10 +39,24 @@ class eshTableViewlevel extends eshTable
 	 */
 	function toXML($mapKeysToText = false)
 	{
-		JLog::add(new JLogEntry(__METHOD__,JLOG::DEBUG,'lib_j2xml'));
-		$this->_excluded = array_merge($this->_excluded, array('rules'));
-		$this->_aliases['rule']='SELECT g.title FROM #__j2xml_usergroups g WHERE g.id IN '.str_replace(array("[","]"),array("(",")"),$this->rules);		
+		$xml = ''; 
+		
+		// Initialise variables.
+		$xml = array();
+		
+		// Open root node.
+		$xml[] = '<viewlevel>';
+		
+		$xml[] = parent::_serialize(
+			null,
+			null,
+			array('rules')
+		); // $excluded,$aliases,$jsons
 
-		return parent::_serialize();
+		// Close root node.
+		$xml[] = '</viewlevel>';
+						
+		// Return the XML array imploded over new lines.
+		return implode("\n", $xml);
 	}
 }
