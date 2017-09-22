@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="package" version="2.5" method="upgrade">
-  <name>pkg_j2xml</name>
+  <name>PKG_J2XML</name>
   <author>Helios Ciancio</author>
-  <creationDate>May 2016</creationDate>
+  <creationDate>September 2017</creationDate>
   <packagename>j2xml</packagename>
-  <version>3.2.11.394</version>
+  <version>3.2.132.1</version>
   <url>http://www.eshiol.it</url>
   <packager>Helios Ciancio</packager>
   <packagerurl>http://www.eshiol.it/</packagerurl>
   <description>PKG_J2XML_XML_DESCRIPTION</description>
   <updateservers>
-    <server type="extension" priority="1" name="J2XML Updates">http://www.eshiol.it/updates/packages/j2xml-updates?format=xml&amp;dummy=extension.xml</server>
+    <server type="extension" priority="1" name="J2XML Updates">http://www.eshiol.it/files/j2xml/j2xml.xml</server>
   </updateservers>
   <files>
-    <folder type="library" id="eshiol/core">lib_eshiol-15.6.13.18.zip</folder>
-    <folder type="library" id="eshiol/j2xml">lib_j2xml-15.9.271.407.zip</folder>
-    <folder type="component" id="j2xml">com_j2xml-3.2.144.206.zip</folder>
-    <folder type="plugin" id="j2xml" group="system">plg_system_j2xml-3.2.31.36.zip</folder>
-    <folder type="file" id="j2xml">cli_j2xml-3.3.11.18.zip</folder>
+    <folder type="library" id="eshiol/core">lib_eshiol-15.6.14.4.zip</folder>
+    <folder type="library" id="eshiol/j2xml">lib_j2xml-15.6.251.4.zip</folder>
+    <folder type="component" id="j2xml">com_j2xml-3.2.132.4.zip</folder>
+    <folder type="plugin" id="j2xml" group="system">plg_system_j2xml-3.2.31.4.zip</folder>
+    <folder type="file" id="j2xml">cli_j2xml-3.2.7.4.zip</folder>
   </files>
   <languages folder="language">
     <language tag="en-GB">en-GB/en-GB.pkg_j2xml.sys.ini</language>
